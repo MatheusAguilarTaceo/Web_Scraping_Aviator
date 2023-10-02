@@ -46,7 +46,8 @@ class Utilizar:
         self.contador = 0
         self.i = True       
         self.navegador = None
-        self.numeroAnterior = 0
+        self.candle_list = None
+        self.candle_list_previous = None
     
 
 use = Utilizar()
@@ -95,38 +96,22 @@ def iniciar_programa():
 
     use.navegador.switch_to.window(use.navegador.window_handles[1])
 
-    use.navegador.switch_to.frame(0)
+    use.navegador.switch_to.frame(0)    
     
-    # candle_list = use.navegador.find_elements(By.CLASS_NAME, 'bubble-multiplier')
-    
-    # for candle in candle_list:
-    #     print(candle.text)
-
-    
-    hora = CapturaDados.horario()
     while True:
-        numero = obter_vela()
-        if(numero != use.numeroAnterior):
-            # CapturaDados.captura_10x(numero)
-            # hora = CapturaDados.captura_historico(numero, hora)
-            # Alerta.alerta_1x(numero)
-            CapturaDados.conexao_bd(numero)
-            use.numeroAnterior = numero
+        use.candle_list = obter_vela()
+        if(use.candle_list != use.candle_list_previous):
+            CapturaDados.conexao_bd(use.candle_list[0])
+            use.candle_list_previous = use.candle_list
 
 def obter_vela():
-    # try:
+    try:
         candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
-        # for candle in candle_list:
-        #     print(candle.text)
-        candle = candle_list[0].text.replace("x", "")                             
-        if (candle == ''):
-            return  0
-        else:
-            return  float(candle)
-    # except:
-    #     use.navegador.refresh()
-    #     time.sleep(6)
-    #     return obter_vela()
+        return [float(candle.text.replace("x","")) for candle in candle_list[0:5]]
+    except:
+        use.navegador.refresh()
+        time.sleep(6)
+        return obter_vela()
 
 
 
