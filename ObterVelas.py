@@ -78,8 +78,9 @@ def iniciar_programa():
     options = Options()  
     user_agent = UserAgent().random
     options.add_argument(f'user-agent={user_agent}')
-    options.headless = False 
+    options.add_argument("--headless")
     options.add_argument("--disable-popup-blocking")
+    options.add_argument("--disable-logging")
     use.navegador = webdriver.Chrome(options = options)
 
     link_site = 'https://b2xbet.com/'
@@ -104,22 +105,24 @@ def iniciar_programa():
 
 
 
-    janela = Tela_espera()
+    # janela = Tela_espera()
     
-    while True:
-        events, values = janela.read()
-        match events:
-            case '_ESPERE_':
-                janela.close()
-                break
+    # while True:
+    #     events, values = janela.read()
+    #     match events:
+    #         case '_ESPERE_':
+    #             janela.close()
+    #             break
     
     
     while True:
         use.candle_list = obter_vela()
         if(use.candle_list != use.candle_list_previous):
-            # CapturaDados.conexao_bd(use.candle_list[0])
+            CapturaDados.conexao_bd(use.candle_list[0])
             use.candle_list_previous = use.candle_list
-            print('VELA = ', use.candle_list[0])
+            CapturaDados.os.system('cls')
+           
+            
 
 def obter_vela():
     try:
@@ -127,7 +130,7 @@ def obter_vela():
         return [float(candle.text.replace("x","")) for candle in candle_list[0:5]]
     except:
         use.navegador.refresh()
-        time.sleep(6)
+        time.sleep(10)
         return obter_vela()
 
 
