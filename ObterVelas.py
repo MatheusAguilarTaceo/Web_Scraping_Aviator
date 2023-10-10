@@ -84,6 +84,25 @@ def iniciar_programa():
 
     link_site = 'https://b2xbet.com/'
     use.navegador.get("https://b2xbet.com/")
+    time.sleep(10)
+    btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.s-small.sign-in')
+    btn_entrar.click()
+    time.sleep(10)
+    use.navegador.find_elements(By.CLASS_NAME, 'orm-control-input-bc')
+    [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
+    btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.a-color ')
+    input_email.send_keys('theusaguilar2@gmail.com')
+    input_password.send_keys('Teu292112')
+    btn_entrar.click()
+    time.sleep(5)
+    use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
+    time.sleep(15)
+    use.navegador.switch_to.frame(0)
+    time.sleep(10)
+    iframe = use.navegador.switch_to.frame(0)
+    print("IFRAME AVIATOR", iframe)
+
+
 
     janela = Tela_espera()
     
@@ -93,16 +112,14 @@ def iniciar_programa():
             case '_ESPERE_':
                 janela.close()
                 break
-
-    use.navegador.switch_to.window(use.navegador.window_handles[1])
-
-    use.navegador.switch_to.frame(0)    
+    
     
     while True:
         use.candle_list = obter_vela()
         if(use.candle_list != use.candle_list_previous):
-            CapturaDados.conexao_bd(use.candle_list[0])
+            # CapturaDados.conexao_bd(use.candle_list[0])
             use.candle_list_previous = use.candle_list
+            print('VELA = ', use.candle_list[0])
 
 def obter_vela():
     try:
@@ -117,6 +134,3 @@ def obter_vela():
 
 
 iniciar_programa()
-# Abra o link em uma nova aba
-# use.navegador.execute_script('window.open(arguments[0]);', link_url)
-# WebDriverWait(use.navegador, 30).until(EC.presence_of_element_located((By.TAG_NAME, "button"))
