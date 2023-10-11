@@ -14,7 +14,6 @@ def horario():
 def data():
     data = datetime.now()
     # return data.strftime("%d-%m-%Y")
-    data = datetime(2023,11,11)
     return data.strftime("%y-%m-%d")
 
 def captura_10x(numero):
@@ -66,7 +65,7 @@ def captura_historico(numero, hora):
 def conexao_bd(candle):
     connect = mysql.connector.connect(host='154.56.48.154', database='u114422138_gg_aviator', user='u114422138_gg_aviator', password='Teu292112@ma')
     if connect.is_connected():
-        sql = f"INSERT INTO pagbet_2023_11 VALUES (default, '{candle}', '{horario()}', '{data()}')"
+        sql = f"INSERT INTO pagbet_2023_10 VALUES (default, '{candle}', '{horario()}', '{data()}')"
         cursor = connect.cursor()
         cursor.execute(sql)
         cursor.close()
