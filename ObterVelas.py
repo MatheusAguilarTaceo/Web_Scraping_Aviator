@@ -78,7 +78,7 @@ def iniciar_programa():
     options = Options()  
     user_agent = UserAgent().random
     options.add_argument(f'user-agent={user_agent}')
-    options.add_argument("--headless")
+   # options.add_argument("--headless")
     options.add_argument("--disable-popup-blocking")
     options.add_argument("--disable-logging")
     use.navegador = webdriver.Chrome(options = options)
@@ -89,7 +89,7 @@ def iniciar_programa():
     btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.s-small.sign-in')
     btn_entrar.click()
     time.sleep(10)
-    use.navegador.find_elements(By.CLASS_NAME, 'orm-control-input-bc')
+    use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
     [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
     btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.a-color ')
     input_email.send_keys('theusaguilar2@gmail.com')
@@ -131,6 +131,12 @@ def obter_vela():
     except:
         use.navegador.refresh()
         time.sleep(10)
+        use.navegador.switch_to.default_content()
+        time.sleep(3)
+        use.navegador.switch_to.frame(0)
+        time.sleep(2)
+        iframe = use.navegador.switch_to.frame(0)
+        print("IFRAME AVIATOR", iframe)
         return obter_vela()
 
 

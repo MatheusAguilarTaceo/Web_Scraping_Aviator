@@ -14,6 +14,7 @@ def horario():
 def data():
     data = datetime.now()
     # return data.strftime("%d-%m-%Y")
+    data = datetime(2023,11,11)
     return data.strftime("%y-%m-%d")
 
 def captura_10x(numero):
