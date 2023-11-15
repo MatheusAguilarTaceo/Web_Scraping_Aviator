@@ -78,7 +78,7 @@ def iniciar_programa():
     options = Options()  
     user_agent = UserAgent().random
     options.add_argument(f'user-agent={user_agent}')
-   # options.add_argument("--headless")
+    #options.add_argument("--headless")
     options.add_argument("--disable-popup-blocking")
     options.add_argument("--disable-logging")
     use.navegador = webdriver.Chrome(options = options)
@@ -91,7 +91,7 @@ def iniciar_programa():
     time.sleep(10)
     use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
     [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
-    btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.a-color ')
+    btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[1]
     input_email.send_keys('theusaguilar2@gmail.com')
     input_password.send_keys('Teu292112')
     btn_entrar.click()
@@ -105,14 +105,14 @@ def iniciar_programa():
 
 
 
-    # janela = Tela_espera()
+    #janela = Tela_espera()
     
-    # while True:
-    #     events, values = janela.read()
-    #     match events:
-    #         case '_ESPERE_':
-    #             janela.close()
-    #             break
+    #while False:
+     #   events, values = janela.read()
+      #  match events:
+       #     case '_ESPERE_':
+        #         janela.close()
+         #        break
     
     
     while True:

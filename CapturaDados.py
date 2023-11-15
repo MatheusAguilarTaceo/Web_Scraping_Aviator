@@ -63,9 +63,10 @@ def captura_historico(numero, hora):
         return hora
 
 def conexao_bd(candle):
-    connect = mysql.connector.connect(host='154.56.48.154', database='u114422138_gg_aviator', user='u114422138_gg_aviator', password='Teu292112@ma')
+    connect = mysql.connector.connect(host='154.56.48.154', database='u114422138_app_gg_aviator', user='u114422138_gg_aviator', password='Aviator_21152926')
     if connect.is_connected():
-        sql = f"INSERT INTO pagbet_2023_10 VALUES (default, '{candle}', '{horario()}', '{data()}')"
+        print(candle)
+        sql = f"INSERT INTO b2xbet_2023_11 VALUES (default, '{candle}', '{horario()}', '{data()}')"
         cursor = connect.cursor()
         cursor.execute(sql)
         cursor.close()
