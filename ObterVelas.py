@@ -9,32 +9,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
  
 import time
-import PySimpleGUI as sg
-import sys
-import Alerta
-import threading
+import os
+import mysql.connector
+from datetime import datetime, timedelta
 
-import CapturaDados 
 
-def Tela_configuracao():
-    lista = []
-    layout = [
-        [sg.Text('Configurações', font=('Helvetica', 14, 'bold'), justification='center')],
-        [sg.HorizontalSeparator()],
-        [sg.Text("Login"), sg.Input(key = "_LOGIN_")],
-        [sg.Text("Senha"), sg.Input(key = "_SENHA_")],
-        [sg.Button('Salvar', key='_SALVAR_'), sg.Text('Nome do Arquivo', size=(14,1)), sg.Input(key='_ARQUIVO_', size=(20, 1))],
-        [sg.HorizontalSeparator()],
-        [sg.Button('Escolher Site', key='_ESCOLHER_'), sg.Combo(lista, key='_LISTA_', size=(20, 1))]
-    ]
-    return sg.Window('Configurações', layout, font=('Helvetica', 11), element_justification='', margins=(10, 10)).finalize()
-
-def Tela_espera():
-    layout = [
-        [sg.Text('ESPERE FAZER O LOGIN, DEPOIS APERTE O BOTÃO')],
-        [sg.Button('Espere', key = '_ESPERE_')]
-    ]
-    return sg.Window('Tela de Espera', layout, font=('Helvetica', 11), element_justification= '', margins= (10, 10)).finalize()
 
 
 
@@ -51,26 +30,7 @@ class Utilizar:
     
 
 use = Utilizar()
-# janela = Tela_configuracao()
 
-while False:
-    events, value = janela.read()
-    if events == sg.WIN_CLOSED or janela == "Exit":
-        sys.exit()
-        break
-    
-    match events:    
-        case "_ESCOLHER_":
-            use.site = value["_LISTA-SITE_"]
-            with open(f"{caminho}/{use.site}", "r") as f:
-                use.link_site = f.readlines()
-            use.login = value["_LOGIN_"]
-            use.senha = value["_SENHA_"] 
-            use.i = True
-    if (use.i == True):
-        threading.Thread(target = captura_10x).start()
-        use.i = False
-        break
              
 
 
@@ -100,27 +60,19 @@ def iniciar_programa():
     time.sleep(15)
     use.navegador.switch_to.frame(0)
     time.sleep(10)
-    iframe = use.navegador.switch_to.frame(0)
-    print("IFRAME AVIATOR", iframe)
+    iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+    use.navegador.get(iframe_jogo_url)
+    print("IFRAME AVIATOR", iframe_jogo_url)
 
 
 
-    # janela = Tela_espera()
-    
-    # while True:
-    #     events, values = janela.read()
-    #     match events:
-    #         case '_ESPERE_':
-    #             janela.close()
-    #             break
-    
-    
+
     while True:
         use.candle_list = obter_vela()
         if(use.candle_list != use.candle_list_previous):
-            CapturaDados.conexao_bd(use.candle_list[0])
+            conexao_bd(use.candle_list[0])
             use.candle_list_previous = use.candle_list
-            CapturaDados.os.system('cls')
+            os.system('cls')
            
             
 
@@ -140,6 +92,23 @@ def obter_vela():
         return obter_vela()
 
 
+def conexao_bd(candle):
+    connect = mysql.connector.connect(host='154.56.48.154', database='u114422138_app_gg_aviator', user='u114422138_gg_aviator', password='Users21152926')
+    if connect.is_connected():
+        sql = f"INSERT INTO b2xbet_2023_11 VALUES (default, '{candle}', '{horario()}', '{data()}')"
+        cursor = connect.cursor()
+        cursor.execute(sql)
+        cursor.close()
+        connect.close()
 
+
+
+def horario():
+    hora = datetime.now()
+    return hora.strftime("%H:%M:%S")
+
+def data():
+    data = datetime.now()
+    return data.strftime("%y-%m-%d")        
 
 iniciar_programa()
