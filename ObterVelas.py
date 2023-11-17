@@ -51,7 +51,7 @@ def iniciar_programa():
     time.sleep(10)
     use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
     [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
-    btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.a-color ')
+    btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[1]
     input_email.send_keys('theusaguilar2@gmail.com')
     input_password.send_keys('Teu292112')
     btn_entrar.click()
@@ -63,6 +63,7 @@ def iniciar_programa():
     iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
     use.navegador.get(iframe_jogo_url)
     print("IFRAME AVIATOR", iframe_jogo_url)
+    time.sleep(10)
 
 
 
@@ -93,7 +94,7 @@ def obter_vela():
 
 
 def conexao_bd(candle):
-    connect = mysql.connector.connect(host='154.56.48.154', database='u114422138_app_gg_aviator', user='u114422138_gg_aviator', password='Users21152926')
+    connect = mysql.connector.connect(host='154.56.48.154', database='u114422138_app_gg_aviator', user='u114422138_gg_aviator', password='Aviator_21152926')
     if connect.is_connected():
         sql = f"INSERT INTO b2xbet_2023_11 VALUES (default, '{candle}', '{horario()}', '{data()}')"
         cursor = connect.cursor()
