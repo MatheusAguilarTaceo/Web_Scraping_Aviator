@@ -2,17 +2,16 @@ from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome import options #busca dos elementos na tela
 from selenium.webdriver.chrome.options import Options #opções para o navegador
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
  
 import time
 import os
+from datetime import datetime
+import pytz
 import mysql.connector
-from datetime import datetime, timedelta
-
+from mysql.connector import pooling
 
 
 
@@ -22,6 +21,7 @@ class Utilizar:
         self.login = None
         self.senha = None
         self.site = None
+        self.connection_pool = None
         self.contador = 0
         self.i = True       
         self.navegador = None
@@ -62,19 +62,30 @@ def iniciar_programa():
     time.sleep(10)
     iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
     use.navegador.get(iframe_jogo_url)
-    print("IFRAME AVIATOR", iframe_jogo_url)
     time.sleep(10)
 
 
+    db_config = {
+        'host': '154.56.48.154',
+        'user': 'u114422138_gg_aviator',
+        'password': 'Aviator_21152926',
+        'database': 'u114422138_app_gg_aviator'
+    }
 
+    pool_config = {
+        'pool_name': 'pool_b2xbet',
+        'pool_size': 5,
+        'autocommit': True
+    }
+
+    use.connection_pool = pooling.MySQLConnectionPool(**db_config, **pool_config)
 
     while True:
         use.candle_list = obter_vela()
         if(use.candle_list != use.candle_list_previous):
-            conexao_bd(use.candle_list[0])
+            insertCandle(use.candle_list[0])
             use.candle_list_previous = use.candle_list
             os.system('cls')
-           
             
 
 def obter_vela():
@@ -89,27 +100,34 @@ def obter_vela():
         use.navegador.switch_to.frame(0)
         time.sleep(2)
         iframe = use.navegador.switch_to.frame(0)
-        print("IFRAME AVIATOR", iframe)
         return obter_vela()
 
 
-def conexao_bd(candle):
-    connect = mysql.connector.connect(host='154.56.48.154', database='u114422138_app_gg_aviator', user='u114422138_gg_aviator', password='Aviator_21152926')
-    if connect.is_connected():
+def insertCandle(candle):
+    connection = use.connection_pool.get_connection()
+    if connection.is_connected():
         sql = f"INSERT INTO b2xbet_2023_11 VALUES (default, '{candle}', '{horario()}', '{data()}')"
-        cursor = connect.cursor()
-        cursor.execute(sql)
-        cursor.close()
-        connect.close()
+        cursor = connection.cursor()
+        try:
+            cursor.execute(sql)
+            cursor.close()
+            connection.close()
+        except mysql.connector.Error as error:
+            print(error)
+        finally:
+            cursor.close()
+            connection.close()   
+            return True     
+
 
 
 
 def horario():
-    hora = datetime.now()
+    hora = datetime.now(pytz.utc)
     return hora.strftime("%H:%M:%S")
 
 def data():
-    data = datetime.now()
-    return data.strftime("%y-%m-%d")        
+    data = datetime.now(pytz.utc)
+    return data.strftime("%Y-%m-%d")        
 
 iniciar_programa()
