@@ -23,27 +23,33 @@ connection_pool = pooling.MySQLConnectionPool(**db_config, **pool_config)
 
 connect = connection_pool.get_connection()
 
+
+
+
+def insertCandle(candle):
+    try:
+        connection = connection_pool.get_connection()
+        print('Conectado')
+        sql = f"INSERT INTO teste VALUES (default, '{candle}', '{hour()}', '{date()}')"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        cursor.close()
+        connection.close()
+    except mysql.connector.Error as error:
+        print('ERRO = ', error)
+        time.sleep(0.5)
+        insertCandle(candle)
+    finally:
+        print(candle)   
+
+
+
 def hour():
     hour = datetime.now(pytz.utc)
     return hour.strftime('%H:%M:%S')
 def date():
     date = datetime.now(pytz.utc)
     return date.strftime('%Y-%m-%d')
-
-def insertCandle(candle):
-    connection = connection_pool.get_connection()
-    if connection.is_connected():
-        print('Conectado = ')
-        sql = f"INSERT INTO teste VALUES (default, '{candle}', '{hour()}', '{date()}')"
-        cursor = connection.cursor()
-        try:
-            cursor.execute(sql)
-        except mysql.connector.Error as error:
-            print('ERRO = ', error)
-        finally:
-            cursor.close()
-            connection.close()   
-            return True  
 
 i = 0
 while True:

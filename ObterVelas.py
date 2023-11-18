@@ -33,6 +33,47 @@ use = Utilizar()
 
              
 
+def hour():
+    hora = datetime.now(pytz.utc)
+    return hora.strftime("%H:%M:%S")
+
+def date():
+    data = datetime.now(pytz.utc)
+    return data.strftime("%Y-%m-%d")    
+
+
+def obter_vela():
+    try:
+        candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
+        return [float(candle.text.replace("x","")) for candle in candle_list[0:5]]
+    except:
+        use.navegador.refresh()
+        time.sleep(10)
+        use.navegador.switch_to.default_content()
+        time.sleep(3)
+        use.navegador.switch_to.frame(0)
+        time.sleep(2)
+        iframe = use.navegador.switch_to.frame(0)
+        return obter_vela()
+
+
+def insertCandle(candle):
+    try:
+        connection = use.connection_pool.get_connection()
+        sql = f"INSERT INTO b2xbet_2023_11 VALUES (default, '{candle}', '{hour()}', '{date()}')"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        cursor.close()
+        connection.close()
+    except mysql.connector.Error as error:
+        print('ERRO = ', error)
+        time.sleep(0.5)
+        insertCandle(candle)
+
+
+
+
+    
 
 def iniciar_programa():
     options = Options()  
@@ -87,47 +128,4 @@ def iniciar_programa():
             use.candle_list_previous = use.candle_list
             os.system('cls')
             
-
-def obter_vela():
-    try:
-        candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
-        return [float(candle.text.replace("x","")) for candle in candle_list[0:5]]
-    except:
-        use.navegador.refresh()
-        time.sleep(10)
-        use.navegador.switch_to.default_content()
-        time.sleep(3)
-        use.navegador.switch_to.frame(0)
-        time.sleep(2)
-        iframe = use.navegador.switch_to.frame(0)
-        return obter_vela()
-
-
-def insertCandle(candle):
-    connection = use.connection_pool.get_connection()
-    if connection.is_connected():
-        sql = f"INSERT INTO b2xbet_2023_11 VALUES (default, '{candle}', '{horario()}', '{data()}')"
-        cursor = connection.cursor()
-        try:
-            cursor.execute(sql)
-            cursor.close()
-            connection.close()
-        except mysql.connector.Error as error:
-            print(error)
-        finally:
-            cursor.close()
-            connection.close()   
-            return True     
-
-
-
-
-def horario():
-    hora = datetime.now(pytz.utc)
-    return hora.strftime("%H:%M:%S")
-
-def data():
-    data = datetime.now(pytz.utc)
-    return data.strftime("%Y-%m-%d")        
-
 iniciar_programa()
