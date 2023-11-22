@@ -8,7 +8,6 @@ from selenium.webdriver.support import expected_conditions as EC
  
 import time
 import os
-from datetime import datetime
 import pytz
 import mysql.connector
 from mysql.connector import pooling
@@ -30,51 +29,7 @@ class Utilizar:
     
 
 use = Utilizar()
-
-             
-
-def hour():
-    hora = datetime.now(pytz.utc)
-    return hora.strftime("%H:%M:%S")
-
-def date():
-    data = datetime.now(pytz.utc)
-    return data.strftime("%Y-%m-%d")    
-
-
-def obter_vela():
-    try:
-        candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
-        return [float(candle.text.replace("x","")) for candle in candle_list[0:5]]
-    except:
-        use.navegador.refresh()
-        time.sleep(10)
-        use.navegador.switch_to.default_content()
-        time.sleep(3)
-        use.navegador.switch_to.frame(0)
-        time.sleep(2)
-        iframe = use.navegador.switch_to.frame(0)
-        return obter_vela()
-
-
-def insertCandle(candle):
-    try:
-        connection = use.connection_pool.get_connection()
-        sql = f"INSERT INTO b2xbet_2023_11 VALUES (default, '{candle}', '{hour()}', '{date()}')"
-        cursor = connection.cursor()
-        cursor.execute(sql)
-        cursor.close()
-        connection.close()
-    except mysql.connector.Error as error:
-        print('ERRO = ', error)
-        time.sleep(0.5)
-        insertCandle(candle)
-
-
-
-
     
-
 def iniciar_programa():
     options = Options()  
     user_agent = UserAgent().random
@@ -92,7 +47,7 @@ def iniciar_programa():
     time.sleep(10)
     use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
     [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
-    btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[1]
+    btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[2]
     input_email.send_keys('theusaguilar2@gmail.com')
     input_password.send_keys('Teu292112')
     btn_entrar.click()
@@ -124,8 +79,38 @@ def iniciar_programa():
     while True:
         use.candle_list = obter_vela()
         if(use.candle_list != use.candle_list_previous):
-            insertCandle(use.candle_list[0])
-            use.candle_list_previous = use.candle_list
-            os.system('cls')
-            
+            try:
+                insertCandle(use.candle_list[0])
+                use.candle_list_previous = use.candle_list
+                os.system('cls')
+            except IndexError as e:
+                print('Lista das velas vazias')
+
+def obter_vela():
+    try:
+        candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
+        return [float(candle.text.replace("x","")) for candle in candle_list[0:5]]
+    except:
+        use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
+        time.sleep(15)
+        use.navegador.switch_to.frame(0)
+        iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+        use.navegador.get(iframe_jogo_url)
+        time.sleep(10)
+        return obter_vela()
+
+def insertCandle(candle):
+    try:
+        connection = use.connection_pool.get_connection()
+        sql = f"INSERT INTO b2xbet_2023 VALUES ( default, '{candle}', UTC_TIMESTAMP() )"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        cursor.close()
+        connection.close()
+    except mysql.connector.Error as error:
+        print('ERRO = ', error)
+        time.sleep(0.5)
+        insertCandle(candle)
+
+        
 iniciar_programa()
