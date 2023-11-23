@@ -24,8 +24,9 @@ class Utilizar:
         self.contador = 0
         self.i = True       
         self.navegador = None
-        self.candle_list = None
-        self.candle_list_previous = None
+        self.candle_list = []
+        self.candle_list_previous = [0]
+        self.candle_list_insert = []
     
 
 use = Utilizar()
@@ -78,18 +79,27 @@ def iniciar_programa():
 
     while True:
         use.candle_list = obter_vela()
-        if(use.candle_list != use.candle_list_previous):
-            try:
-                insertCandle(use.candle_list[0])
-                use.candle_list_previous = use.candle_list
-                os.system('cls')
-            except IndexError as e:
-                print('Lista das velas vazias')
+        if(use.candle_list != []):
+            for i in  range(len(use.candle_list_previous)):
+                for j in range(len(use.candle_list)):
+                    if(use.candle_list_previous[i] == use.candle_list[j]):
+                        if(use.candle_list_previous[i+1] == use.candle_list[j+1] and use.candle_list_previous[i+1] == use.candle_list[j+1]):
+                            break
+                    use.candle_list_insert.append(use.candle_list[j])    
+                else:
+                    continue
+                break  
+            for candle in reversed(use.candle_list_insert):
+                insertCandle(candle)
+                
+            use.candle_list_previous = use.candle_list
+            os.system('cls')
+
 
 def obter_vela():
     try:
         candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
-        return [float(candle.text.replace("x","")) for candle in candle_list[0:5]]
+        return [float(candle.text.replace("x","")) for candle in candle_list[0:7]]
     except:
         use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
         time.sleep(15)
@@ -98,6 +108,9 @@ def obter_vela():
         use.navegador.get(iframe_jogo_url)
         time.sleep(10)
         return obter_vela()
+    
+
+
 
 def insertCandle(candle):
     try:
