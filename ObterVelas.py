@@ -145,6 +145,8 @@ def obterVela():
         return obterVela()
     
 def insertCandle(candle , date_time = 'UTC_TIMESTAMP()'):
+    connection = 0
+    cursor = 0
     try:
         connection = use.connection_pool.get_connection()
         sql = f"INSERT INTO b2xbet_2023 VALUES ( default, {candle}, {date_time})"
@@ -153,26 +155,42 @@ def insertCandle(candle , date_time = 'UTC_TIMESTAMP()'):
         cursor.close()
         connection.close()
     except mysql.connector.Error as error:
+        if(cursor):
+            cursor.close()
+        if(connection):
+            connection.close()
         print('ERRO = ', error)
         time.sleep(0.5)
         insertCandle(candle)
 
 def selectCandle():
-    sql = "SELECT candle from b2xbet_2023 ORDER BY id DESC LIMIT 7"
-    connection = use.connection_pool.get_connection()
-    cursor = connection.cursor()
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    if(result):
-        for candle in result:
-            use.candle_list_previous.append(float (candle[0]))
+    connection = 0
+    cursor = 0
+    try:
+        sql = "SELECT candle from b2xbet_2023 ORDER BY id DESC LIMIT 7"
+        connection = use.connection_pool.get_connection()
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if(result):
+            for candle in result:
+                use.candle_list_previous.append(float (candle[0]))
+                cursor.close()
+                connection.close()
+            return
+        use.candle_list_previous = [0]    
+        cursor.close()
+        connection.close()
+    except Exception as error:
+        if(cursor):
             cursor.close()
+        if(connection):
             connection.close()
-        return
-    use.candle_list_previous = [0]    
-    cursor.close()
-    connection.close()
+        use.candle_list_previous = []
+        print(error)
+        selectCandle()
 
+        
 def filterCandles():
     if(use.candle_list != []):
         for i in  range(len(use.candle_list_previous)):
