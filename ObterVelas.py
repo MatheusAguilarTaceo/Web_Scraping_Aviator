@@ -88,7 +88,7 @@ def iniciar_programa():
                     
                 use.candle_list_insert = []
     except:
-        use.connection_pool.close()  
+        use.connection_pool.stop()  
 
 def firstCandles():
     try:
