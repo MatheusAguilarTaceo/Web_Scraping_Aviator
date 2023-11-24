@@ -79,15 +79,13 @@ def iniciar_programa():
     use.connection_pool = pooling.MySQLConnectionPool(**db_config, **pool_config)
 
     firstCandles()
-    
     while True:
         use.candle_list = obterVela()
         if(filterCandles()):
-            for candle in reversed(use.candle_list_insert):
+            for candle in use.candle_list_insert:
                 insertCandle(candle)
                 
-        use.candle_list_previous = use.candle_list
-        use.candle_list_insert = []
+            use.candle_list_insert = []
         
 
 def firstCandles():
@@ -112,9 +110,7 @@ def firstCandles():
             time.sleep(0.5)
             candle_date_time.insert(0, [candle, date])
             use.candle_list.append(candle)
-        print('previous', use.candle_list_previous)
         if(filterCandles()):
-            print('AAAAAA')
             for list in candle_date_time:
                 for candle in use.candle_list_insert:
                     if(candle == list[0]):
@@ -172,22 +168,21 @@ def selectCandle():
             use.candle_list_previous.append(float (candle[0]))
             cursor.close()
             connection.close()
-        print('SELECT P  = ',  use.candle_list_previou )
         return
     use.candle_list_previous = [0]    
-    print('SELECT P 2 = ', use.candle_list_previous)
     cursor.close()
     connection.close()
 
 def filterCandles():
-    print('bbbbbbb', use.candle_list_previous)
     if(use.candle_list != []):
         for i in  range(len(use.candle_list_previous)):
             for j in range(len(use.candle_list)):
                 if(use.candle_list_previous[i] == use.candle_list[j]):
                     if(use.candle_list_previous[i+1] == use.candle_list[j+1] and use.candle_list_previous[i+1] == use.candle_list[j+1]):
+                        use.candle_list_previous = use.candle_list
                         return True
                 use.candle_list_insert.insert(0, use.candle_list[j])
+        use.candle_list_previous = use.candle_list
         return True
     return False     
        
