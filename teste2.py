@@ -54,7 +54,7 @@ date =  datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S').astimezone()
 print(date)
 date = date.astimezone(pytz.timezone('UTC'))
 print(date)
-date = date.strftime('%Y-%m-%d %H:%M:%S')
+date = f"'{date.strftime('%Y-%m-%d %H:%M:%S')}'"
 print(date)
 
 
@@ -65,3 +65,15 @@ if(previous[0] == next[0]):
     print('SIM')
 else:
     print('Não')    
+
+
+STR = '2022-11-23'
+STR = f" '{STR}' "
+FRASE = f"HOJE {STR}"
+
+print(FRASE)
+
+STR = 'UTC_TIMESTAMP'
+
+FRASE = f"HOJE {STR}"
+print(FRASE)

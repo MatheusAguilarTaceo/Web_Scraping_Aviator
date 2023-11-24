@@ -52,7 +52,7 @@ def date():
     return date.strftime('%Y-%m-%d')
 
 i = 0
-while True:
+while False:
     candle  = random.randint(1,1000)
     insertCandle(candle)
     i += 1
@@ -60,5 +60,15 @@ while True:
     if i > 10:
         break
 
-# print(date())
-# print(hour())
+
+l = [40, 10, 20, 30, 40, 40, 50, 60, 70, 80, 100]
+l2 = [40, 40 ,50, 60, 70, 80, 100]
+i = 0
+for A in l:
+    for B in l2:
+        if(A == B):
+            print(B,'', end='')
+            l2.pop(0)
+        i = i + 1     
+        break
+print('\nQuantidades de iteração = ', i)

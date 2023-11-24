@@ -78,70 +78,64 @@ def iniciar_programa():
 
     use.connection_pool = pooling.MySQLConnectionPool(**db_config, **pool_config)
 
-    first_candles()
+    firstCandles()
     
     while True:
-        print('PREVIOUSS', use.candle_list_previous)
-        use.candle_list = obter_vela()
-        print('NEXT', use.candle_list)
-        if(use.candle_list != []):
-            for i in  range(len(use.candle_list_previous)):
-                for j in range(len(use.candle_list)):
-                    if(use.candle_list_previous[i] == use.candle_list[j]):
-                        if(use.candle_list_previous[i+1] == use.candle_list[j+1] and use.candle_list_previous[i+1] == use.candle_list[j+1]):
-                            break
-                    use.candle_list_insert.append(use.candle_list[j])    
-                else:
-                    continue
-                break  
+        use.candle_list = obterVela()
+        if(filterCandles()):
             for candle in reversed(use.candle_list_insert):
                 insertCandle(candle)
                 
-            print('Parece que n esta entrando aqui')
-            use.candle_list_previous = use.candle_list
-            use.candle_list_insert= []
+        use.candle_list_previous = use.candle_list
+        use.candle_list_insert = []
+        
 
-def first_candles():
+def firstCandles():
     try:
         candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
-        connect = use.connection_pool.get_connection()
-        cursor = connect.cursor()
+        candle_date_time = []
         day = datetime.datetime.now().strftime('%Y-%m-%d')
-
-        for candle in reversed(candle_list[0:7]):
-            candle.click()
+        selectCandle()
+        for tag_candle in candle_list[0:7]:
+            tag_candle.click()
             time.sleep(0.5)
             header_modal = use.navegador.find_element(By.CLASS_NAME, 'modal-header')
-            candle = float(candle.text.replace('x', ''))
+            candle = float(tag_candle.text.replace('x', ''))
+
             hour =  header_modal.find_element(By.CLASS_NAME, 'header__info-time').text
-            date = f'{day} {hour}'
+            date = f"{day} {hour}"
             date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S').astimezone()
             date = date.astimezone(pytz.timezone('UTC'))
-            date = date.strftime('%Y-%m-%d %H:%M:%S')
-            print(candle, ' ', date)
-            sql = f" INSERT INTO b2xbet_2023 values (default, {candle}, '{date}')"
-            cursor.execute(sql)
-
+            date = f"'{date.strftime('%Y-%m-%d %H:%M:%S')}'"
             button_close = header_modal.find_element(By.TAG_NAME, 'button')
             button_close.click()
-            use.candle_list_previous.insert(0, candle)
             time.sleep(0.5)
-        cursor.close() 
-        connect.close()  
+            candle_date_time.insert(0, [candle, date])
+            use.candle_list.append(candle)
+        print('previous', use.candle_list_previous)
+        if(filterCandles()):
+            print('AAAAAA')
+            for list in candle_date_time:
+                for candle in use.candle_list_insert:
+                    if(candle == list[0]):
+                        insertCandle(candle, list[1])
+                        use.candle_list_insert.pop(0)
+                    break
+            use.candle_list_insert = []    
         return 
 
     except Exception  as error:
-        print(error)
+        print('ERRO = ', error)
         use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
         time.sleep(15)
         use.navegador.switch_to.frame(0)
         iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
         use.navegador.get(iframe_jogo_url)
         time.sleep(10)
-        return first_candles()
+        return firstCandles()
 
 
-def obter_vela():
+def obterVela():
     try:
         candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
         return [float(candle.text.replace('x','')) for candle in candle_list[0:7]]
@@ -152,15 +146,12 @@ def obter_vela():
         iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
         use.navegador.get(iframe_jogo_url)
         time.sleep(10)
-        return obter_vela()
+        return obterVela()
     
-
-
-
-def insertCandle(candle , ):
+def insertCandle(candle , date_time = 'UTC_TIMESTAMP()'):
     try:
         connection = use.connection_pool.get_connection()
-        sql = f"INSERT INTO b2xbet_2023 VALUES ( default, {candle}, UTC_TIMESTAMP() )"
+        sql = f"INSERT INTO b2xbet_2023 VALUES ( default, {candle}, {date_time})"
         cursor = connection.cursor()
         cursor.execute(sql)
         cursor.close()
@@ -170,5 +161,34 @@ def insertCandle(candle , ):
         time.sleep(0.5)
         insertCandle(candle)
 
-        
+def selectCandle():
+    sql = "SELECT candle from b2xbet_2023 ORDER BY id DESC LIMIT 7"
+    connection = use.connection_pool.get_connection()
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    if(result):
+        for candle in result:
+            use.candle_list_previous.append(float (candle[0]))
+            cursor.close()
+            connection.close()
+        print('SELECT P  = ',  use.candle_list_previou )
+        return
+    use.candle_list_previous = [0]    
+    print('SELECT P 2 = ', use.candle_list_previous)
+    cursor.close()
+    connection.close()
+
+def filterCandles():
+    print('bbbbbbb', use.candle_list_previous)
+    if(use.candle_list != []):
+        for i in  range(len(use.candle_list_previous)):
+            for j in range(len(use.candle_list)):
+                if(use.candle_list_previous[i] == use.candle_list[j]):
+                    if(use.candle_list_previous[i+1] == use.candle_list[j+1] and use.candle_list_previous[i+1] == use.candle_list[j+1]):
+                        return True
+                use.candle_list_insert.insert(0, use.candle_list[j])
+        return True
+    return False     
+       
 iniciar_programa()
