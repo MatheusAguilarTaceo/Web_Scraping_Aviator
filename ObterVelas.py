@@ -33,60 +33,62 @@ class Utilizar:
 use = Utilizar()
     
 def iniciar_programa():
-    options = Options()  
-    user_agent = UserAgent().random
-    options.add_argument(f'user-agent={user_agent}')
-   # options.add_argument("--headless")
-    options.add_argument("--disable-popup-blocking")
-    options.add_argument("--disable-logging")
-    use.navegador = webdriver.Chrome(options = options)
+    try:
+        options = Options()  
+        user_agent = UserAgent().random
+        options.add_argument(f'user-agent={user_agent}')
+    # options.add_argument("--headless")
+        options.add_argument("--disable-popup-blocking")
+        options.add_argument("--disable-logging")
+        use.navegador = webdriver.Chrome(options = options)
 
-    link_site = 'https://b2xbet.com/'
-    use.navegador.get("https://b2xbet.com/")
-    time.sleep(10)
-    btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.s-small.sign-in')
-    btn_entrar.click()
-    time.sleep(10)
-    use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
-    [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
-    btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[2]
-    input_email.send_keys('theusaguilar2@gmail.com')
-    input_password.send_keys('Teu292112')
-    btn_entrar.click()
-    time.sleep(5)
-    use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
-    time.sleep(15)
-    use.navegador.switch_to.frame(0)
-    time.sleep(10)
-    iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
-    use.navegador.get(iframe_jogo_url)
-    time.sleep(10)
+        link_site = 'https://b2xbet.com/'
+        use.navegador.get("https://b2xbet.com/")
+        time.sleep(10)
+        btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.s-small.sign-in')
+        btn_entrar.click()
+        time.sleep(10)
+        use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
+        [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
+        btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[2]
+        input_email.send_keys('theusaguilar2@gmail.com')
+        input_password.send_keys('Teu292112')
+        btn_entrar.click()
+        time.sleep(5)
+        use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
+        time.sleep(15)
+        use.navegador.switch_to.frame(0)
+        time.sleep(10)
+        iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+        use.navegador.get(iframe_jogo_url)
+        time.sleep(10)
 
 
-    db_config = {
-        'host': '154.56.48.154',
-        'user': 'u114422138_gg_aviator',
-        'password': 'Aviator_21152926',
-        'database': 'u114422138_app_gg_aviator'
-    }
+        db_config = {
+            'host': '154.56.48.154',
+            'user': 'u114422138_gg_aviator',
+            'password': 'Aviator_21152926',
+            'database': 'u114422138_app_gg_aviator'
+        }
 
-    pool_config = {
-        'pool_name': 'pool_b2xbet',
-        'pool_size': 5,
-        'autocommit': True
-    }
+        pool_config = {
+            'pool_name': 'pool_b2xbet',
+            'pool_size': 5,
+            'autocommit': True
+        }
 
-    use.connection_pool = pooling.MySQLConnectionPool(**db_config, **pool_config)
+        use.connection_pool = pooling.MySQLConnectionPool(**db_config, **pool_config)
 
-    firstCandles()
-    while True:
-        use.candle_list = obterVela()
-        if(filterCandles()):
-            for candle in use.candle_list_insert:
-                insertCandle(candle)
-                
-            use.candle_list_insert = []
-        
+        firstCandles()
+        while True:
+            use.candle_list = obterVela()
+            if(filterCandles()):
+                for candle in use.candle_list_insert:
+                    insertCandle(candle)
+                    
+                use.candle_list_insert = []
+    except:
+        use.connection_pool.close()  
 
 def firstCandles():
     try:
