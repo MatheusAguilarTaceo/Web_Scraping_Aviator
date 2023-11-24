@@ -1,4 +1,3 @@
-A = [90 , 10, 10, 10, 50, 60,70]
 A = [0]
 
 B = [90, 20, 40, 90 , 10, 10, 10]
@@ -25,3 +24,44 @@ for i in range(len(A)):
     break
 
 print(C)
+A = [90, 20, 40, 90 , 10, 10, 10]
+B = [90, 55 , 90, 20, 40, 90 , 10]
+
+C =[]
+for i in range(len(A)):
+    for j in range(len(B)):
+        if(A[i] == B[j]):
+            try:    
+                if(A[i+1] == B[j+1] and A[i+2] == B[j+2]):
+                    break
+            except:
+                break    
+        C.append(B[j])
+    else:
+        continue
+    break
+
+print(C)
+
+import datetime
+import pytz
+day = datetime.datetime.now().strftime('%Y-%m-%d')
+print(day)
+hour = '17:59:30'
+date = f'{day} {hour}'
+print(date)
+date =  datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S').astimezone()
+print(date)
+date = date.astimezone(pytz.timezone('UTC'))
+print(date)
+date = date.strftime('%Y-%m-%d %H:%M:%S')
+print(date)
+
+
+previous = ['10']
+next = [10]
+
+if(previous[0] == next[0]):
+    print('SIM')
+else:
+    print('Não')    

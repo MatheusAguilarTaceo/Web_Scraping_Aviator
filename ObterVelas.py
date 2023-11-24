@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
  
 import time
 import os
+import datetime
 import pytz
 import mysql.connector
 from mysql.connector import pooling
@@ -25,7 +26,7 @@ class Utilizar:
         self.i = True       
         self.navegador = None
         self.candle_list = []
-        self.candle_list_previous = [0]
+        self.candle_list_previous = []
         self.candle_list_insert = []
     
 
@@ -77,8 +78,12 @@ def iniciar_programa():
 
     use.connection_pool = pooling.MySQLConnectionPool(**db_config, **pool_config)
 
+    first_candles()
+    
     while True:
+        print('PREVIOUSS', use.candle_list_previous)
         use.candle_list = obter_vela()
+        print('NEXT', use.candle_list)
         if(use.candle_list != []):
             for i in  range(len(use.candle_list_previous)):
                 for j in range(len(use.candle_list)):
@@ -92,14 +97,54 @@ def iniciar_programa():
             for candle in reversed(use.candle_list_insert):
                 insertCandle(candle)
                 
+            print('Parece que n esta entrando aqui')
             use.candle_list_previous = use.candle_list
-            os.system('cls')
+            use.candle_list_insert= []
+
+def first_candles():
+    try:
+        candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
+        connect = use.connection_pool.get_connection()
+        cursor = connect.cursor()
+        day = datetime.datetime.now().strftime('%Y-%m-%d')
+
+        for candle in reversed(candle_list[0:7]):
+            candle.click()
+            time.sleep(0.5)
+            header_modal = use.navegador.find_element(By.CLASS_NAME, 'modal-header')
+            candle = float(candle.text.replace('x', ''))
+            hour =  header_modal.find_element(By.CLASS_NAME, 'header__info-time').text
+            date = f'{day} {hour}'
+            date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S').astimezone()
+            date = date.astimezone(pytz.timezone('UTC'))
+            date = date.strftime('%Y-%m-%d %H:%M:%S')
+            print(candle, ' ', date)
+            sql = f" INSERT INTO b2xbet_2023 values (default, {candle}, '{date}')"
+            cursor.execute(sql)
+
+            button_close = header_modal.find_element(By.TAG_NAME, 'button')
+            button_close.click()
+            use.candle_list_previous.insert(0, candle)
+            time.sleep(0.5)
+        cursor.close() 
+        connect.close()  
+        return 
+
+    except Exception  as error:
+        print(error)
+        use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
+        time.sleep(15)
+        use.navegador.switch_to.frame(0)
+        iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+        use.navegador.get(iframe_jogo_url)
+        time.sleep(10)
+        return first_candles()
 
 
 def obter_vela():
     try:
         candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
-        return [float(candle.text.replace("x","")) for candle in candle_list[0:7]]
+        return [float(candle.text.replace('x','')) for candle in candle_list[0:7]]
     except:
         use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
         time.sleep(15)
@@ -112,10 +157,10 @@ def obter_vela():
 
 
 
-def insertCandle(candle):
+def insertCandle(candle , ):
     try:
         connection = use.connection_pool.get_connection()
-        sql = f"INSERT INTO b2xbet_2023 VALUES ( default, '{candle}', UTC_TIMESTAMP() )"
+        sql = f"INSERT INTO b2xbet_2023 VALUES ( default, {candle}, UTC_TIMESTAMP() )"
         cursor = connection.cursor()
         cursor.execute(sql)
         cursor.close()
