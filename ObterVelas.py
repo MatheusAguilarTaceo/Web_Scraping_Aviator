@@ -24,6 +24,7 @@ class Utilizar:
         self.contador = 0
         self.i = True       
         self.navegador = None
+        self.all_handles = None
         self.candle_list = []
         self.candle_list_previous = []
         self.candle_list_insert = []
@@ -41,26 +42,46 @@ def iniciar_programa():
     options.add_argument("--disable-logging")
     use.navegador = webdriver.Chrome(options = options)
 
-    link_site = 'https://b2xbet.com/'
-    use.navegador.get("https://b2xbet.com/")
+    use.navegador.get("https://www.b2xbet.net/pb/")
     time.sleep(10)
     btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.s-small.sign-in')
+    time.sleep(0.2)
     btn_entrar.click()
-    time.sleep(10)
+    time.sleep(5)
     use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
     [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
     btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[2]
     input_email.send_keys('theusaguilar2@gmail.com')
     input_password.send_keys('Teu292112')
+    time.sleep(0.2)
     btn_entrar.click()
     time.sleep(5)
     use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
-    time.sleep(15)
-    use.navegador.switch_to.frame(0)
     time.sleep(10)
+    use.navegador.switch_to.frame(0)
+    time.sleep(5)
     iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+    use.navegador.execute_script("window.open('', '_blank');")
+    time.sleep(0.1)
+    use.all_handles = use.navegador.window_handles
+    time.sleep(0.1)
+    use.navegador.switch_to.window(use.all_handles[1])
     use.navegador.get(iframe_jogo_url)
     time.sleep(10)
+    use.navegador.switch_to.window(use.all_handles[0])
+    time.sleep(1)
+    actions = ActionChains(use.navegador)
+    actions.move_by_offset(100, 100).click().perform()
+    time.sleep(0.2)
+    menu = use.navegador.find_elements(By.CLASS_NAME, 'nav-menu-sub')[1]
+    use.navegador.execute_script("arguments[0].style.visibility = 'visible';", menu)
+    use.navegador.execute_script("arguments[0].style.opacity = '1';", menu)
+    btn_close = use.navegador.find_element(By.CLASS_NAME, 'btn.ellipsis')
+    time.sleep(0.3)
+    btn_close.click()
+    time.sleep(5)
+    use.navegador.close()
+    use.navegador.switch_to.window(use.all_handles[1])
 
 
     db_config = {
@@ -85,6 +106,8 @@ def iniciar_programa():
                 insertCandle(candle)
                 
             use.candle_list_insert = []
+
+
 def firstCandles():
     try:
         candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
@@ -133,12 +156,45 @@ def obterVela():
         candle_list = use.navegador.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
         return [float(candle.text.replace('x','')) for candle in candle_list[0:7]]
     except:
+        use.navegador.get("https://www.b2xbet.net/pb/")
+        time.sleep(10)
+        btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.s-small.sign-in')
+        time.sleep(0.2)
+        btn_entrar.click()
+        time.sleep(5)
+        use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
+        [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
+        btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[2]
+        input_email.send_keys('theusaguilar2@gmail.com')
+        input_password.send_keys('Teu292112')
+        btn_entrar.click()
+        time.sleep(5)
         use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
-        time.sleep(15)
+        time.sleep(10)
         use.navegador.switch_to.frame(0)
+        time.sleep(5)
         iframe_jogo_url = use.navegador.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+        use.navegador.execute_script("window.open('', '_blank');")
+        time.sleep(0.1)
+        use.all_handles = use.navegador.window_handles
+        time.sleep(0.1)
+        use.navegador.switch_to.window(use.all_handles[1])
         use.navegador.get(iframe_jogo_url)
         time.sleep(10)
+        use.navegador.switch_to.window(use.all_handles[0])
+        time.sleep(1)
+        actions = ActionChains(use.navegador)
+        actions.move_by_offset(100, 100).click().perform()
+        time.sleep(0.2)
+        menu = use.navegador.find_elements(By.CLASS_NAME, 'nav-menu-sub')[1]
+        use.navegador.execute_script("arguments[0].style.visibility = 'visible';", menu)
+        use.navegador.execute_script("arguments[0].style.opacity = '1';", menu)
+        btn_close = use.navegador.find_element(By.CLASS_NAME, 'btn.ellipsis')
+        time.sleep(0.3)
+        btn_close.click()
+        time.sleep(5)
+        use.navegador.close()
+        use.navegador.switch_to.window(use.all_handles[1])
         return obterVela()
     
 def insertCandle(candle , date_time = 'UTC_TIMESTAMP()'):
