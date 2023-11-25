@@ -157,7 +157,7 @@ def obterVela():
         return [float(candle.text.replace('x','')) for candle in candle_list[0:7]]
     except:
         use.navegador.get("https://www.b2xbet.net/pb/")
-        time.sleep(10)
+        time.sleep(15)
         btn_entrar = use.navegador.find_element(By.CLASS_NAME, 'btn.s-small.sign-in')
         time.sleep(0.5)
         btn_entrar.click()
@@ -166,7 +166,9 @@ def obterVela():
         [input_email, input_password] = use.navegador.find_elements(By.CLASS_NAME, 'form-control-input-bc')
         btn_entrar = use.navegador.find_elements(By.CLASS_NAME, 'btn.a-color')[2]
         input_email.send_keys('theusaguilar2@gmail.com')
+        time.sleep(0.3)
         input_password.send_keys('Teu292112')
+        time.sleep(0.3)
         btn_entrar.click()
         time.sleep(5)
         use.navegador.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
