@@ -72,3 +72,15 @@ for A in l:
         i = i + 1     
         break
 print('\nQuantidades de iteração = ', i)
+
+import datetime
+
+lista = [ [1,2], [1,2], [1,2] ]
+print(lista)
+print(*lista)
+print(list(zip(*lista)))
+print(type(list(zip(*lista))))
+list1, list2 = list(zip(*lista))
+
+print(type(list1))
+print(list2)
