@@ -9,29 +9,28 @@ import time
 import datetime
 import pytz
 import mysql.connector
-from multiprocessing import ProcessS
+from multiprocessing import Process
 
 
-def bettingHouse(url, table):
+def bettingHouse(callback, table):
     browser_chrome = None
     
-    def openHouse():
-        user_agent = UserAgent().random()
+    def openBrowser():
+        user_agent = UserAgent().random
         options = Options()
-        options.add_argument(f'user-agent = {user_agent}')
+        options.add_argument(f'user-agent={user_agent}')
         # options.add_argument('--headless')
         options.add_argument('--disable-popup-blocking')
         options.add_argument('--disable-logging')
-
+        nonlocal browser_chrome
         browser_chrome = webdriver.Chrome(options= options)
-        return
 
-    def closeHouse():
+    def closeBrowser():
         browser_chrome.quit()
 
 
-    def walkToTheGame(callback):
-        callback()
+    def walkToTheGame(callback = callback):
+        callback(browser_chrome)
 
     def connectDB():
         db_config = {
@@ -41,24 +40,30 @@ def bettingHouse(url, table):
         'database': 'app_gg_aviator'
         }
 
-        connection = mysql.connector.connect(db_config)
+        connection = mysql.connector.connect(**db_config)
         return connection
     
     def selectDB(connection):
         sql = f'SELECT candle FROM {table} ORDER BY id DESC LIMIT 7'
         cursor = connection.cursor()
         old_candles = []
-        result = cursor.execute(sql)
-        for candle in result:
-            old_candles.append(float(candle))
-        cursor.close()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if(result):
+            for candle in result:
+                old_candles.append(float(candle[0]))
 
+            cursor.close()
+            return old_candles
+        old_candles = [0]
         return old_candles
-        
+    
+    
     def insertDB(connection, candle, date_time = 'UTC_TIMESTAMP()'):
         sql = f'INSERT INTO {table} VALUES (default, {candle}, {date_time})'
         cursor = connection.cursor()
         cursor.execute(sql)
+        connection.commit()
         cursor.close()
 
     def dataScraping():
@@ -67,11 +72,15 @@ def bettingHouse(url, table):
             connection = connectDB()
             old_candles = selectDB(connection)
             new_candles_hours = getCandlesAndHours()
-            for canndle
-            #AQUII COMEÇAR
-            insert_candles = filterCandles(new_candles_hours, old_candles)
-            for candle in insert_candles:
-                insertDB(candle)
+            new_candles, new_hours = list(zip(*new_candles_hours))
+        
+            insert_candles_hours = filterCandlesAndHours(new_candles, old_candles, new_hours)
+            if(insert_candles_hours):
+                for candle, hour in reversed(insert_candles_hours):
+                    insertDB(connection, candle, hour)
+            
+            connection.close()
+            return new_candles        
 
         def getCandlesAndHours():
             candles_list = browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
@@ -80,7 +89,7 @@ def bettingHouse(url, table):
             if(candles_list):
                 for tag_candle in candles_list[0:7]:
                     tag_candle.click()
-                    time.sleep(0.5)
+                    time.sleep(1)
                     candle = float(tag_candle.text.replace('x', ''))
                     
                     header_modal = browser_chrome.find_element(By.CLASS_NAME, 'modal-header')
@@ -97,10 +106,117 @@ def bettingHouse(url, table):
                     
                     new_candles_hours.append([candle, date])
                 return new_candles_hours   
+            
+        def filterCandlesAndHours(new_candles, old_candles, new_hours):  
+            if(new_candles != []):
+                insert_candles_hours = []
+                i = 0
+                for j in range(len(new_candles)):
+                    if(old_candles[i] == new_candles[j]):
+                        if(old_candles[i+1] == new_candles[j+1] and old_candles[i+2] == new_candles[j+2]):
+                            return insert_candles_hours
+                    insert_candles_hours.append([new_candles[j], new_hours[j]])
+
+                return insert_candles_hours
+            return False  
+      
+
 
         def getCandles():
             candles_list = browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
             if(candles_list):
                return [float(candle.text.replace('x','')) for candle in candles_list[0:7]]
 
-        def filterCandles():  
+        def filterCandles(new_candles, old_candles):  
+            if(new_candles != []):
+                insert_candles = []
+                i = 0
+                for j in range(len(new_candles)):
+                    if(old_candles[i] == new_candles[j]):
+                        if(old_candles[i+1] == new_candles[j+1] and old_candles[i+2] == new_candles[j+2]):
+                            return insert_candles
+                    insert_candles.append(new_candles[j])
+                return insert_candles
+            return False  
+        
+
+        old_candles = checkCandlesDB()
+
+        while True:
+            new_candles = getCandles()
+            insert_candles = filterCandles(new_candles, old_candles)
+            if(insert_candles):
+                connection = connectDB()
+                for candle in insert_candles:
+                    insertDB(connection, candle)
+                connection.close()
+                old_candles = new_candles
+
+    openBrowser()
+    limit  = 0
+    while limit < 10:
+        try:
+            walkToTheGame()
+            time.sleep(10)
+            dataScraping()
+        except Exception as error:
+            print('Erro = linha 163', error)
+        limit += 1  
+
+    closeBrowser()    
+    print('Limit = ', limit)
+    # return{'openBrowser' : openBrowser, 'closeBrowser': closeBrowser, 'walkToTheGame': walkToTheGame, 'dataScraping': dataScraping}
+
+
+def houseGoldebet(browser_chrome):
+    browser_chrome.get('https://goldebet.com/casino')
+    time.sleep(10)
+    login_btn = browser_chrome.find_element(By.CLASS_NAME, 'login-btn')
+    login_btn.click()
+    time.sleep(0.5)
+
+    [email_input, password_input] = browser_chrome.find_elements(By.CLASS_NAME, 'form-control')
+    email_input.send_keys('theusaguilar2@gmail.com') 
+    time.sleep(0.25)
+    password_input.send_keys('Teu292112')
+    time.sleep(0.25)
+
+    login_btn = browser_chrome.find_element(By.CLASS_NAME, 'md-button')
+    login_btn.click()
+    time.sleep(5)
+
+    browser_chrome.get('https://goldebet.com/casino?gameid=7339')
+    time.sleep(5)
+    iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+    print(iframe_aviator)
+
+    browser_chrome.execute_script("window.open('', '_blank');")
+    handles  = browser_chrome.window_handles
+
+    browser_chrome.switch_to.window(handles[1])
+    browser_chrome.get(iframe_aviator)
+
+    browser_chrome.switch_to.window(handles[0])
+    time.sleep(1)
+    
+    close_btn = browser_chrome.find_element(By.CLASS_NAME, 'btn-close-modal')
+    close_btn.click()
+
+    menu = browser_chrome.find_element(By.CLASS_NAME, 'profile-btn')
+    menu.click()
+
+    close_btn = browser_chrome.find_elements(By.CLASS_NAME, 'ms-0')[7]
+    close_btn.click()
+    browser_chrome.close()
+    browser_chrome.switch_to.window(handles[1])
+
+
+
+
+try:
+    goldebet = bettingHouse(houseGoldebet,'goldebet_2023')
+except Exception as error:
+    print('Erro gerado  = ', error)
+
+
+

@@ -74,13 +74,18 @@ for A in l:
 print('\nQuantidades de iteração = ', i)
 
 import datetime
+lista = False
 
-lista = [ [1,2], [1,2], [1,2] ]
-print(lista)
-print(*lista)
-print(list(zip(*lista)))
-print(type(list(zip(*lista))))
-list1, list2 = list(zip(*lista))
 
-print(type(list1))
-print(list2)
+lista1  = []
+lista2 = False
+
+if (lista1 == []):
+    print('LISTA 1 é falso')
+if (lista2 == False):
+    print('LISTA 2 é falso')    
+
+if (not lista1):
+    print('LISTA 1 é falso')
+if (not lista2):
+    print('LISTA 2 é falso')    
