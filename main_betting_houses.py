@@ -5,85 +5,93 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 
 
+from multiprocessing.pool import Pool
+from multiprocessing import Process
+from threading import Thread
 import time
 import datetime
 import pytz
 import mysql.connector
-from multiprocessing import Process
 
 
-def bettingHouse(callback, table):
-    browser_chrome = None
+class BettingHouse():
+
+    def __init__(self, callback, table):
+        self.callback = callback
+        self.table = table
+        self.browser_chrome = None
     
-    def openBrowser():
+
+    def openBrowser(self):
         user_agent = UserAgent().random
         options = Options()
         options.add_argument(f'user-agent={user_agent}')
         # options.add_argument('--headless')
         options.add_argument('--disable-popup-blocking')
         options.add_argument('--disable-logging')
-        nonlocal browser_chrome
-        browser_chrome = webdriver.Chrome(options= options)
+        # nonlocal self.browser_chrome
+        self.browser_chrome = webdriver.Chrome(options= options)
 
-    def closeBrowser():
-        browser_chrome.quit()
+    def closeBrowser(self):
+        self.browser_chrome.quit()
 
 
-    def walkToTheGame(callback = callback):
-        callback(browser_chrome)
+    def walkToTheGame(self):
+        self.callback(self.browser_chrome)
 
-    def connectDB():
+    def connectDB(self):
         db_config = {
-        'host': 'localhost',
-        'user': 'gg_aviator',
-        'password': 'aviator_21152926',
-        'database': 'app_gg_aviator'
+        'host': '154.56.48.154',
+        'user': 'u114422138_gg_aviator',
+        'password': 'Aviator_21152926',
+        'database': 'u114422138_app_gg_aviator'
         }
 
         connection = mysql.connector.connect(**db_config)
         return connection
     
-    def selectDB(connection):
-        sql = f'SELECT candle FROM {table} ORDER BY id DESC LIMIT 7'
-        cursor = connection.cursor()
-        old_candles = []
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        if(result):
-            for candle in result:
-                old_candles.append(float(candle[0]))
+    def selectDB(self, connection):
+        sql = f'SELECT candle FROM {self.table} ORDER BY id DESC LIMIT 7'
+        with connection.cursor() as cursor:
+            old_candles = []
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            if(result):
+                for candle in result:
+                    old_candles.append(float(candle[0]))
 
-            cursor.close()
+                cursor.close()
+                return old_candles
+            old_candles = [0]
             return old_candles
-        old_candles = [0]
-        return old_candles
     
     
-    def insertDB(connection, candle, date_time = 'UTC_TIMESTAMP()'):
-        sql = f'INSERT INTO {table} VALUES (default, {candle}, {date_time})'
-        cursor = connection.cursor()
-        cursor.execute(sql)
-        connection.commit()
-        cursor.close()
+    def insertDB(self, connection, candle, date_time = 'UTC_TIMESTAMP()'):
+        sql = f'INSERT INTO {self.table} VALUES (default, {candle}, {date_time})'
+        with connection.cursor() as cursor:
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            connection.commit()
+            cursor.close()
 
-    def dataScraping():
+    def dataScraping(self):
 
         def checkCandlesDB():
-            connection = connectDB()
-            old_candles = selectDB(connection)
+            connection = self.connectDB()
+            old_candles = self.selectDB(connection)
             new_candles_hours = getCandlesAndHours()
             new_candles, new_hours = list(zip(*new_candles_hours))
         
             insert_candles_hours = filterCandlesAndHours(new_candles, old_candles, new_hours)
             if(insert_candles_hours):
                 for candle, hour in reversed(insert_candles_hours):
-                    insertDB(connection, candle, hour)
+                    self.insertDB(connection, candle, hour)
             
             connection.close()
             return new_candles        
 
         def getCandlesAndHours():
-            candles_list = browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
+            candles_list = self.browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
             day = datetime.datetime.now().strftime('%Y-%m-%d')
             new_candles_hours = []
             if(candles_list):
@@ -92,7 +100,7 @@ def bettingHouse(callback, table):
                     time.sleep(1)
                     candle = float(tag_candle.text.replace('x', ''))
                     
-                    header_modal = browser_chrome.find_element(By.CLASS_NAME, 'modal-header')
+                    header_modal = self.browser_chrome.find_element(By.CLASS_NAME, 'modal-header')
                     hour =  header_modal.find_element(By.CLASS_NAME, 'header__info-time').text
                     
                     date = f"{day} {hour}"
@@ -123,7 +131,7 @@ def bettingHouse(callback, table):
 
 
         def getCandles():
-            candles_list = browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
+            candles_list = self.browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
             if(candles_list):
                return [float(candle.text.replace('x','')) for candle in candles_list[0:7]]
 
@@ -146,26 +154,14 @@ def bettingHouse(callback, table):
             new_candles = getCandles()
             insert_candles = filterCandles(new_candles, old_candles)
             if(insert_candles):
-                connection = connectDB()
-                for candle in insert_candles:
-                    insertDB(connection, candle)
-                connection.close()
-                old_candles = new_candles
+                with self.connectDB() as connection:
+                    for candle in insert_candles:
+                        self.insertDB(connection, candle)
+                    
+                    connection.close()
+                    old_candles = new_candles
 
-    openBrowser()
-    limit  = 0
-    while limit < 10:
-        try:
-            walkToTheGame()
-            time.sleep(10)
-            dataScraping()
-        except Exception as error:
-            print('Erro = linha 163', error)
-        limit += 1  
 
-    closeBrowser()    
-    print('Limit = ', limit)
-    # return{'openBrowser' : openBrowser, 'closeBrowser': closeBrowser, 'walkToTheGame': walkToTheGame, 'dataScraping': dataScraping}
 
 
 def houseGoldebet(browser_chrome):
@@ -186,9 +182,8 @@ def houseGoldebet(browser_chrome):
     time.sleep(5)
 
     browser_chrome.get('https://goldebet.com/casino?gameid=7339')
-    time.sleep(5)
+    time.sleep(7)
     iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
-    print(iframe_aviator)
 
     browser_chrome.execute_script("window.open('', '_blank');")
     handles  = browser_chrome.window_handles
@@ -209,14 +204,73 @@ def houseGoldebet(browser_chrome):
     close_btn.click()
     browser_chrome.close()
     browser_chrome.switch_to.window(handles[1])
+    time.sleep(15)
+
+def houseB2xbet(browser_chrome):
+    browser_chrome.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
+    time.sleep(15)
+    browser_chrome.find_elements(By.CLASS_NAME, 'form-control-input-bc')
+    [input_email, input_password] = browser_chrome.find_elements(By.CLASS_NAME, 'form-control-input-bc')
+    btn_entrar = browser_chrome.find_elements(By.CLASS_NAME, 'btn.a-color')[2]
+    input_email.send_keys('diversaoanimes2021@gmail.com')
+    input_password.send_keys('Eighty-six3231')
+    time.sleep(1)
+    btn_entrar.click()
+    time.sleep(10)
+    browser_chrome.switch_to.frame(0)
+    time.sleep(5)
+    iframe_jogo_url = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+    browser_chrome.execute_script("window.open('', '_blank');")
+    time.sleep(0.5)
+    all_handles = browser_chrome.window_handles
+    time.sleep(0.5)
+    browser_chrome.switch_to.window(all_handles[1])
+    browser_chrome.get(iframe_jogo_url)
+    time.sleep(10)
+    browser_chrome.switch_to.window(all_handles[0])
+    time.sleep(1)
+    actions = ActionChains(browser_chrome)
+    actions.move_by_offset(100, 100).click().perform()
+    time.sleep(0.5)
+    menu = browser_chrome.find_elements(By.CLASS_NAME, 'nav-menu-sub')[1]
+    browser_chrome.execute_script("arguments[0].style.visibility = 'visible';", menu)
+    browser_chrome.execute_script("arguments[0].style.opacity = '1';", menu)
+    btn_close = browser_chrome.find_element(By.CLASS_NAME, 'btn.ellipsis')
+    time.sleep(0.5)
+    btn_close.click()
+    time.sleep(5)
+    browser_chrome.close()
+    browser_chrome.switch_to.window(all_handles[1])
+    time.sleep(15)
+
+
+
+def init(house, table):
+    B = BettingHouse(house, table) 
+    B.openBrowser()
+    i = 0
+    while i < 10:
+        try:
+            B.walkToTheGame()
+            B.dataScraping()
+        except Exception as error:
+            print('Erro  = ', error)    
+        
+        i +=1
+    B.closeBrowser()    
+
+if __name__ == '__main__':
+    with Pool(2) as p:
+        p.starmap(init, [[houseB2xbet, 'b2xbet_2023'], [houseGoldebet, 'goldebet_2023']])
+
+
+
+    
+    
 
 
 
 
-try:
-    goldebet = bettingHouse(houseGoldebet,'goldebet_2023')
-except Exception as error:
-    print('Erro gerado  = ', error)
 
 
 
