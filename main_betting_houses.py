@@ -182,7 +182,7 @@ def houseGoldebet(browser_chrome):
     time.sleep(5)
 
     browser_chrome.get('https://goldebet.com/casino?gameid=7339')
-    time.sleep(7)
+    time.sleep(5)
     iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
 
     browser_chrome.execute_script("window.open('', '_blank');")
@@ -190,7 +190,7 @@ def houseGoldebet(browser_chrome):
 
     browser_chrome.switch_to.window(handles[1])
     browser_chrome.get(iframe_aviator)
-
+    time.sleep(5)
     browser_chrome.switch_to.window(handles[0])
     time.sleep(1)
     
