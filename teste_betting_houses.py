@@ -7,7 +7,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 from multiprocessing.pool import Pool
 from multiprocessing import Process
-from threading import Thread
 import time
 import datetime
 import pytz
@@ -182,7 +181,7 @@ def houseGoldebet(browser_chrome):
     time.sleep(5)
 
     browser_chrome.get('https://goldebet.com/casino?gameid=7339')
-    time.sleep(7)
+    time.sleep(5)
     iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
 
     browser_chrome.execute_script("window.open('', '_blank');")
@@ -190,7 +189,7 @@ def houseGoldebet(browser_chrome):
 
     browser_chrome.switch_to.window(handles[1])
     browser_chrome.get(iframe_aviator)
-
+    time.sleep()
     browser_chrome.switch_to.window(handles[0])
     time.sleep(1)
     
