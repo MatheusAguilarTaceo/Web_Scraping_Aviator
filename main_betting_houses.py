@@ -1,3 +1,4 @@
+
 from fake_useragent import UserAgent
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -12,7 +13,7 @@ import time
 import datetime
 import pytz
 import mysql.connector
-
+import EnviarEmail
 
 class BettingHouse():
 
@@ -51,7 +52,7 @@ class BettingHouse():
         return connection
     
     def selectDB(self, connection):
-        sql = f'SELECT candle FROM {self.table} ORDER BY id DESC LIMIT 10'
+        sql = f'SELECT candle FROM {self.table} ORDER BY id DESC LIMIT 7'
         with connection.cursor() as cursor:
             old_candles = []
             cursor.execute(sql)
@@ -95,7 +96,7 @@ class BettingHouse():
             day = datetime.datetime.now().strftime('%Y-%m-%d')
             new_candles_hours = []
             if(candles_list):
-                for tag_candle in candles_list[0:10]:
+                for tag_candle in candles_list[0:7]:
                     tag_candle.click()
                     time.sleep(1)
                     candle = float(tag_candle.text.replace('x', ''))
@@ -133,7 +134,7 @@ class BettingHouse():
         def getCandles():
             candles_list = self.browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
             if(candles_list):
-               return [float(candle.text.replace('x','')) for candle in candles_list[0:10]]
+               return [float(candle.text.replace('x','')) for candle in candles_list[0:7]]
 
         def filterCandles(new_candles, old_candles):  
             if(new_candles != []):
@@ -255,10 +256,15 @@ def init(house, table):
             B.walkToTheGame()
             B.dataScraping()
         except Exception as error:
-            print('Erro  = ', error)    
+            day =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            with open(f"Log {day.split(' ')[0]}.txt", "a") as arquivo:
+                print(f'House: {table} date = {day}-> Erro  = {error}', file=arquivo)
+            i +=1
+            continue
+        B.closeBrowser()    
+    file = f"Log {day.split(' ')[0]}.txt"
+    EnviarEmail.enviar_email(f'Log House {table}', file )
         
-        i +=1
-    B.closeBrowser()    
 
 if __name__ == '__main__':
     with Pool(2) as p:

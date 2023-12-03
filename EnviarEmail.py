@@ -4,11 +4,9 @@ from  email.message import EmailMessage
 
 caminho = Path()
 def enviar_email(title, file):
-    TitleEmail = """
-    <p> HISTORICO 10X/<p>
-    <p> Segue o arquivo/<p>
-    """
-    emails = ['theusaguilar2@gmail.com', 'dhiegod18@gmail.com']
+    TitleEmail = title
+    # emails = ['theusaguilar2@gmail.com', 'dhiegod18@gmail.com']
+    emails = ['theusaguilar2@gmail.com']
     msg = EmailMessage()
     msg['Subject' ] = title
     msg['From'] = 'theusaguilar2@gmail.com'
