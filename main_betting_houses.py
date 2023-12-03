@@ -51,7 +51,7 @@ class BettingHouse():
         return connection
     
     def selectDB(self, connection):
-        sql = f'SELECT candle FROM {self.table} ORDER BY id DESC LIMIT 7'
+        sql = f'SELECT candle FROM {self.table} ORDER BY id DESC LIMIT 10'
         with connection.cursor() as cursor:
             old_candles = []
             cursor.execute(sql)
@@ -95,7 +95,7 @@ class BettingHouse():
             day = datetime.datetime.now().strftime('%Y-%m-%d')
             new_candles_hours = []
             if(candles_list):
-                for tag_candle in candles_list[0:7]:
+                for tag_candle in candles_list[0:10]:
                     tag_candle.click()
                     time.sleep(1)
                     candle = float(tag_candle.text.replace('x', ''))
@@ -133,7 +133,7 @@ class BettingHouse():
         def getCandles():
             candles_list = self.browser_chrome.find_elements(By.CLASS_NAME, 'payout.ng-star-inserted')
             if(candles_list):
-               return [float(candle.text.replace('x','')) for candle in candles_list[0:7]]
+               return [float(candle.text.replace('x','')) for candle in candles_list[0:10]]
 
         def filterCandles(new_candles, old_candles):  
             if(new_candles != []):
@@ -205,7 +205,7 @@ def houseGoldebet(browser_chrome):
     browser_chrome.close()
     browser_chrome.switch_to.window(handles[1])
     browser_chrome.refresh()    
-    time.sleep(15)
+    time.sleep(10)
 
 def houseB2xbet(browser_chrome):
     browser_chrome.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
@@ -242,7 +242,7 @@ def houseB2xbet(browser_chrome):
     time.sleep(5)
     browser_chrome.close()
     browser_chrome.switch_to.window(all_handles[1])
-    time.sleep(15)
+    time.sleep(10)
 
 
 
