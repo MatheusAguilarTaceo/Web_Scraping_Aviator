@@ -204,6 +204,7 @@ def houseGoldebet(browser_chrome):
     close_btn.click()
     browser_chrome.close()
     browser_chrome.switch_to.window(handles[1])
+    browser_chrome.refresh()    
     time.sleep(15)
 
 def houseB2xbet(browser_chrome):
