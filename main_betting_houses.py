@@ -183,9 +183,11 @@ def houseGoldebet(browser_chrome):
     time.sleep(5)
 
     browser_chrome.get('https://goldebet.com/casino?gameid=7339')
-    time.sleep(5)
-    iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
-
+    time.sleep(2)
+    while True:
+        iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+        if('launch.spribegaming.com' in  iframe_aviator):
+            break
     browser_chrome.execute_script("window.open('', '_blank');")
     handles  = browser_chrome.window_handles
 
@@ -205,9 +207,9 @@ def houseGoldebet(browser_chrome):
     close_btn.click()
     browser_chrome.close()
     browser_chrome.switch_to.window(handles[1])
-    browser_chrome.refresh()    
+    browser_chrome.refresh()
     time.sleep(10)
-
+    
 def houseB2xbet(browser_chrome):
     browser_chrome.get('https://www.b2xbet.net/pb/?openGames=806666-real&gameNames=Aviator')
     time.sleep(15)

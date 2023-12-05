@@ -105,3 +105,413 @@ Stacktrace:
 	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
 	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
 
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = object of type 'NoneType' has no len()
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: goldebet_2023 date = 2023-12-03 17:37:12-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = 'NoneType' object has no attribute 'replace'
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+
+House: b2xbet_2023 date = 2023-12-03 17:37:13-> Erro  = Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=119.0.6045.200)
+Stacktrace:
+	GetHandleVerifier [0x00007FF7829182B2+55298]
+	(No symbol) [0x00007FF782885E02]
+	(No symbol) [0x00007FF7827405AB]
+	(No symbol) [0x00007FF782720038]
+	(No symbol) [0x00007FF7827A6BC7]
+	(No symbol) [0x00007FF7827BA15F]
+	(No symbol) [0x00007FF7827A1E83]
+	(No symbol) [0x00007FF78277670A]
+	(No symbol) [0x00007FF782777964]
+	GetHandleVerifier [0x00007FF782C90AAB+3694587]
+	GetHandleVerifier [0x00007FF782CE728E+4048862]
+	GetHandleVerifier [0x00007FF782CDF173+4015811]
+	GetHandleVerifier [0x00007FF7829B47D6+695590]
+	(No symbol) [0x00007FF782890CE8]
+	(No symbol) [0x00007FF78288CF34]
+	(No symbol) [0x00007FF78288D062]
+	(No symbol) [0x00007FF78287D3A3]
+	BaseThreadInitThunk [0x00007FFA3AA8257D+29]
+	RtlUserThreadStart [0x00007FFA3C8CAA58+40]
+

@@ -181,15 +181,17 @@ def houseGoldebet(browser_chrome):
     time.sleep(5)
 
     browser_chrome.get('https://goldebet.com/casino?gameid=7339')
-    time.sleep(5)
-    iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
-
+    time.sleep(2)
+    while True:
+        iframe_aviator = browser_chrome.find_element(By.TAG_NAME, 'iframe').get_attribute('src')
+        if('launch.spribegaming.com' in  iframe_aviator):
+            break
     browser_chrome.execute_script("window.open('', '_blank');")
     handles  = browser_chrome.window_handles
 
     browser_chrome.switch_to.window(handles[1])
     browser_chrome.get(iframe_aviator)
-    time.sleep()
+    time.sleep(5)
     browser_chrome.switch_to.window(handles[0])
     time.sleep(1)
     
@@ -249,7 +251,7 @@ def init(house, table):
     B = BettingHouse(house, table) 
     B.openBrowser()
     i = 0
-    while i < 1:
+    while i < 10:
         try:
             B.walkToTheGame()
             B.dataScraping()
@@ -266,7 +268,8 @@ def init(house, table):
 if __name__ == '__main__':
     with Pool(2) as p:
         # p.starmap(init, [[houseB2xbet, 'b2xbet_2023'], [houseGoldebet, 'goldebet_2023']])
-        p.starmap(init, [[houseB2xbet, 'b2xbet_2023']])
+        # p.starmap(init, [[houseB2xbet, 'b2xbet_2023']])
+        p.starmap(init, [[houseGoldebet, 'goldebet_2023']])
 
 
 
