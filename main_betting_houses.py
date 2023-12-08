@@ -7,13 +7,16 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 from multiprocessing.pool import Pool
-from multiprocessing import Process
+from multiprocessing import Manager
 from threading import Thread
 import time
 import datetime
 import pytz
 import mysql.connector
 import EnviarEmail
+import sys
+import traceback
+import PySimpleGUI as sg
 
 class BettingHouse():
 
@@ -249,31 +252,71 @@ def houseB2xbet(browser_chrome):
 
 
 
-def init(house, table):
-    B = BettingHouse(house, table) 
-    B.openBrowser()
-    i = 0
-    while i < 10:
-        try:
-            B.walkToTheGame()
-            B.dataScraping()
-        except Exception as error:
-            day =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            with open(f"Log {day.split(' ')[0]}.txt", "a") as arquivo:
-                print(f'House: {table} date = {day}-> Erro  = {error}', file=arquivo)
-            i +=1
-            continue
-        B.closeBrowser()    
-    file = f"Log {day.split(' ')[0]}.txt"
-    EnviarEmail.enviar_email(f'Log House {table}', file )
-        
+def init(house, table, status):
+    B = BettingHouse(house, table)
+    house = table.split('_')[0]
+    while status[house] == 'Executando':
+        B.openBrowser()
+        i = 0
+        while i < 10:
+            try:
+                B.walkToTheGame()
+                B.dataScraping()
+            except Exception as error:
+                day =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                tipo_excecao, valor_excecao, tb = sys.exc_info()
+                with open(f"Log {day.split(' ')[0]}.txt", "a") as arquivo:
+                    print(f'House: {table} date = {day}', file=arquivo)
+                    print('Tipo de exceção', tipo_excecao)
+                    print('Valor da exceção', valor_excecao)
+                    print('Traceback', traceback.extract_tb(tb)[-1][1])
+                i +=1
+                continue
+            B.closeBrowser()    
+        file = f"Log {day.split(' ')[0]}.txt"
+        EnviarEmail.enviar_email(f'Log House {table}', file )
+            
+
+def create_window(status):
+    layout = [
+        [sg.Text('Fechar casas de apostas')],
+        [sg.Text('B2xbet'), sg.Button('Fechar', key='b2xbet')],
+        [sg.Text('Goldebet'), sg.Button('Fechar', key='goldebet')]
+    ]
+
+    janela = sg.Window('Menu', layout)
+
+    while True:
+        event, value = janela.read()
+        match event:
+            case sg.WIN_CLOSED:
+                print('Fechando a janela')
+                status['b2xbet'] = 'Encerrado'
+                status['goldebet'] = 'Encerrado'
+                break  
+            case 'b2xbet':
+                status['b2xbet'] = 'Encerrado'
+            case 'goldebet':
+                status['goldebet'] = 'Encerrado'
+
+    janela.close()            
 
 if __name__ == '__main__':
+    status = Manager().dict(
+        {
+        'b2xbet': 'Executando',
+        'goldebet': 'Executando'
+        }
+    )
+
+    janela = Thread(target=create_window, args=[status])
+    janela.start()
+
     with Pool(2) as p:
-        p.starmap(init, [[houseB2xbet, 'b2xbet_2023'], [houseGoldebet, 'goldebet_2023']])
+        p.starmap(init, [[houseB2xbet, 'b2xbet_2023', status], [houseGoldebet, 'goldebet_2023', status]])
 
 
-
+    janela.join()
     
     
 
