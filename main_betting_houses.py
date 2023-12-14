@@ -265,16 +265,16 @@ def init(house, table, status):
             except Exception as error:
                 day =  datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 tipo_excecao, valor_excecao, tb = sys.exc_info()
-                with open(f"Log {day.split(' ')[0]}.txt", "a") as arquivo:
-                    print(f'House: {table} date = {day}', file=arquivo)
-                    print('Tipo de exceção', tipo_excecao)
-                    print('Valor da exceção', valor_excecao)
-                    print('Traceback', traceback.extract_tb(tb)[-1][1])
+                # with open(f"Log {day.split(' ')[0]}.txt", "a") as arquivo:
+                #     print(f'House: {table} date = {day}', file=arquivo)
+                #     print('Tipo de exceção', tipo_excecao, file=arquivo)
+                #     print('Valor da exceção', valor_excecao, file=arquivo)
+                #     print('Traceback', traceback.extract_tb(tb)[-1][1], file=arquivo)
                 i +=1
                 continue
             B.closeBrowser()    
-        file = f"Log {day.split(' ')[0]}.txt"
-        EnviarEmail.enviar_email(f'Log House {table}', file )
+        # file = f"Log {day.split(' ')[0]}.txt"
+        # EnviarEmail.enviar_email(f'Log House {table}', file )
             
 
 def create_window(status):
